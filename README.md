@@ -13,6 +13,12 @@
 ```
 docker-compose up -d
 ```
+Все зависимости подтягиваются автоматически, но на всякий случай, 
+сделайте composer install в корне проекта, через контейнер 
+```
+docker-compose exec -u 0 api bash -c  'composer install'
+```
+
 Вход `http://localhost:81`
 
 ## Полезные команды
