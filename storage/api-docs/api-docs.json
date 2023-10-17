@@ -1,0 +1,230 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API doc",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/get-shows": {
+            "get": {
+                "tags": [
+                    "party-station"
+                ],
+                "summary": "Список мероприятий",
+                "description": "Получение списка мероприятий",
+                "operationId": "getShows",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Show #1"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/get-events": {
+            "get": {
+                "tags": [
+                    "party-station"
+                ],
+                "summary": "Список событий",
+                "description": "Получение списка событий",
+                "operationId": "getEvents",
+                "parameters": [
+                    {
+                        "name": "show_id",
+                        "in": "query",
+                        "description": "Id Мероприятия",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "show_id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "example": "2023-11-12 22:52:18"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/get-places": {
+            "get": {
+                "tags": [
+                    "party-station"
+                ],
+                "summary": "Список мест",
+                "description": "Получение списка мест",
+                "operationId": "getPlaces",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "description": "Id События",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "x": {
+                                                "type": "integer",
+                                                "example": "0"
+                                            },
+                                            "y": {
+                                                "type": "integer",
+                                                "example": "0"
+                                            },
+                                            "width": {
+                                                "type": "integer",
+                                                "example": "20"
+                                            },
+                                            "height": {
+                                                "type": "integer",
+                                                "example": "20"
+                                            },
+                                            "is_available": {
+                                                "type": "bolean",
+                                                "example": "true"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/reserve": {
+            "post": {
+                "tags": [
+                    "party-station"
+                ],
+                "summary": "Бронирование",
+                "description": "Забронировать места, для брони нужно имя покупателя",
+                "operationId": "reserve",
+                "requestBody": {
+                    "description": "Формат входных данных",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "event_id": {
+                                        "description": "Id События",
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "description": "Имя покупателя",
+                                        "type": "string"
+                                    },
+                                    "places[]": {
+                                        "description": "Массив мест для брони",
+                                        "type": "array",
+                                        "items": {}
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "success": {
+                                                "type": "boolean",
+                                                "example": "true"
+                                            },
+                                            "reservation_id": {
+                                                "type": "integer",
+                                                "example": "652ee8c5cc144"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}

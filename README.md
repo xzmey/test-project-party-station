@@ -26,8 +26,10 @@ docker-compose up -d --no-deps --build [container_name]
 ```
 Выполнить команду в контейнере от рута:
 ```
-docker-compose exec -u 0 [container_name] bash -c  'command'
+docker-compose exec -u 0 api bash -c  'command'
 ```
+## Документаци
+Доступна по url `http://localhost:81/api/documentation`
 ## Возможные проблемы
 
 ### Нехватает прав
