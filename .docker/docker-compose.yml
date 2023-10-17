@@ -1,0 +1,52 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      args:
+        user: user
+        uid: 1000
+      context: ./
+      dockerfile: ./api/Dockerfile
+    image: test-project-api
+    container_name: test-project-api-app
+    restart: unless-stopped
+    ports:
+      - "9011:9000"
+    volumes:
+      - ./../:/var/www/api:cached
+    networks:
+      - test-project
+
+  composer:
+    image: composer:2.2
+    container_name: test-project-composer
+    volumes:
+      - ./../:/var/www
+    working_dir: /var/www
+    depends_on:
+      - api
+    entrypoint: [ 'composer', 'install' , '--ignore-platform-reqs']
+    networks:
+      - test-project
+
+  nginx:
+    image: nginx:alpine
+    container_name: test-project-nginx
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "81:81"
+    volumes:
+      - ./../:/var/www/api:cached
+      - ./nginx:/etc/nginx/conf.d
+    links:
+      - api
+    networks:
+      - test-project
+
+networks:
+ test-project:
+    driver: bridge
+    name: test-project-network
